@@ -467,7 +467,7 @@ function! BufExplorer()
     if !exists("b:displayMode") || b:displayMode != "winmanager"
         " Do not use keepalt when opening bufexplorer to allow the buffer that
         " we are leaving to become the new alternate buffer
-        execute "silent keepjumps hide edit".name
+        execute "keepjumps hide edit ".name
     endif
 
     call s:DisplayBufferList()
@@ -851,7 +851,7 @@ function! s:SelectBuffer(...)
         if (a:0 == 1) && (a:1 == "tab")
 
             " Restore [BufExplorer] buffer.
-            execute "silent buffer!".s:originBuffer
+            execute "buffer ".s:originBuffer
 
             " Was the tab found?
             if tabNbr == 0
@@ -906,7 +906,7 @@ function! s:SelectBuffer(...)
             endif
 
             " Switch to selected buffer
-            execute "keepalt silent b!" _bufNbr
+            execute "keepalt b " . _bufNbr
             " Default, open in current window
         else
             " Are we suppose to move to the tab where the active buffer is?
@@ -930,7 +930,7 @@ function! s:SelectBuffer(...)
             endif
 
             " Switch to the selected buffer.
-            execute "keepjumps keepalt silent b!" _bufNbr
+            execute "keepjumps keepalt b " . _bufNbr
         endif
 
         " Make the buffer 'listed' again.
@@ -1060,7 +1060,7 @@ function! s:Close()
         " Since there are buffers left to switch to, switch to the previous and
         " then the current.
         for b in reverse(listed[0:1])
-            execute "keepjumps silent b ".b
+            execute "keepjumps b ".b
         endfor
     endif
 
